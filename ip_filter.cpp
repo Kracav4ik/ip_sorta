@@ -1,60 +1,31 @@
+#include "utils.h"
+
 #include <cassert>
 #include <cstdlib>
 #include <iostream>
-#include <string>
-#include <vector>
+#include <algorithm>
 
-// ("",  '.') -> [""]
-// ("11", '.') -> ["11"]
-// ("..", '.') -> ["", "", ""]
-// ("11.", '.') -> ["11", ""]
-// (".11", '.') -> ["", "11"]
-// ("11.22", '.') -> ["11", "22"]
-std::vector<std::string> split(const std::string &str, char d)
-{
-    std::vector<std::string> r;
-
-    std::string::size_type start = 0;
-    std::string::size_type stop = str.find_first_of(d);
-    while(stop != std::string::npos)
-    {
-        r.push_back(str.substr(start, stop - start));
-
-        start = stop + 1;
-        stop = str.find_first_of(d, start);
-    }
-
-    r.push_back(str.substr(start));
-
-    return r;
-}
-
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
     try
     {
-        std::vector<std::vector<std::string> > ip_pool;
-
-        for(std::string line; std::getline(std::cin, line);)
-        {
-            std::vector<std::string> v = split(line, '\t');
+        std::vector<std::vector<std::string>> ip_pool;
+        std::string line;
+        std::getline(std::cin, line);
+        while (!line.empty()) {
+            std::vector<std::string> v = split(line, ' ');
             ip_pool.push_back(split(v.at(0), '.'));
+            std::getline(std::cin, line);
         }
 
-        // TODO reverse lexicographically sort
+        std::sort(ip_pool.begin(), ip_pool.end(), sort);
 
-        for(std::vector<std::vector<std::string> >::const_iterator ip = ip_pool.cbegin(); ip != ip_pool.cend(); ++ip)
-        {
-            for(std::vector<std::string>::const_iterator ip_part = ip->cbegin(); ip_part != ip->cend(); ++ip_part)
-            {
-                if (ip_part != ip->cbegin())
-                {
-                    std::cout << ".";
-
-                }
-                std::cout << *ip_part;
+        for (const auto& ip : ip_pool) {
+            std::string ip_string;
+            for(const auto& ip_part : ip) {
+                ip_string += ip_part + '.';
             }
-            std::cout << std::endl;
+            ip_string.pop_back();
+            std::cout << ip_string << std::endl;
         }
 
         // 222.173.235.246
@@ -120,8 +91,7 @@ int main(int argc, char const *argv[])
         // 39.46.86.85
         // 5.189.203.46
     }
-    catch(const std::exception &e)
-    {
+    catch(const std::exception &e) {
         std::cerr << e.what() << std::endl;
     }
 

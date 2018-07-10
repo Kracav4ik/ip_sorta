@@ -10,7 +10,7 @@ project(ip_sorta VERSION 0.0.${IP_SORTA_NUMBER})
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(ip_sorta ip_filter.cpp)
+add_executable(ip_sorta ip_filter.cpp utils.cpp utils.h)
 
 set(CPACK_GENERATOR DEB)
 
