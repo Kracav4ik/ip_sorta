@@ -32,7 +32,7 @@ bool sort(IP ip1, IP ip2) {
 
 void print(const std::vector<IP>& ip_pool) {
     for (const auto& ip : ip_pool) {
-        std::__cxx11::string ip_string;
+        std::string ip_string;
         for(const auto& ip_part : ip) {
             ip_string += ip_part + '.';
         }
