@@ -4,17 +4,17 @@
 #include <cstdlib>
 #include <iostream>
 #include <algorithm>
+std::vector<IP> ip_pool;
+
+template<typename... Args>
+std::vector<IP> filter(Args... args) {
+    return filter_ip_pool(ip_pool, args...);
+}
+
 
 int main(int argc, char const *argv[]) {
     try
     {
-        std::vector<IP> ip_pool;
-
-        template<typename... Args>
-        std::vector<IP> filter(Args... args) {
-            return filter_ip_pool(ip_pool, args...);
-        }
-
         std::string line;
         std::getline(std::cin, line);
         while (!line.empty()) {
