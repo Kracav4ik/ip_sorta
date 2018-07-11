@@ -1,7 +1,9 @@
 #include "utils.h"
 
-std::vector<std::string> split(const std::string &str, char d) {
-    std::vector<std::string> result;
+#include <iostream>
+
+IP split(const std::string &str, char d) {
+    IP result;
 
     std::string::size_type start = 0;
     std::string::size_type stop = str.find_first_of(d);
@@ -17,13 +19,24 @@ std::vector<std::string> split(const std::string &str, char d) {
     return result;
 }
 
-bool sort(std::vector<std::string> v1, std::vector<std::string> v2) {
-    for (int i = 0; i < v1.size(); ++i) {
-        if (std::stoi(v1[i]) > std::stoi(v2[i])) {
+bool sort(IP ip1, IP ip2) {
+    for (int i = 0; i < ip1.size(); ++i) {
+        if (std::stoi(ip1[i]) > std::stoi(ip2[i])) {
             return true;
-        } else if (std::stoi(v1[i]) < std::stoi(v2[i])) {
+        } else if (std::stoi(ip1[i]) < std::stoi(ip2[i])) {
             return false;
         }
     }
     return true;
+}
+
+void print(const std::vector<IP>& ip_pool) {
+    for (const auto& ip : ip_pool) {
+        std::__cxx11::string ip_string;
+        for(const auto& ip_part : ip) {
+            ip_string += ip_part + '.';
+        }
+        ip_string.pop_back();
+        std::cout << ip_string << std::endl;
+    }
 }

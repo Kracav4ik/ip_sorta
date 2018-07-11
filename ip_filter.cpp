@@ -8,50 +8,24 @@
 int main(int argc, char const *argv[]) {
     try
     {
-        std::vector<std::vector<std::string>> ip_pool;
+        std::vector<IP> ip_pool;
+
+        template<typename... Args>
+        std::vector<IP> filter(Args... args) {
+            return filter_ip_pool(ip_pool, args...);
+        }
+
         std::string line;
         std::getline(std::cin, line);
         while (!line.empty()) {
-            std::vector<std::string> v = split(line, ' ');
+            IP v = split(line, '\t');
             ip_pool.push_back(split(v.at(0), '.'));
             std::getline(std::cin, line);
         }
 
         std::sort(ip_pool.begin(), ip_pool.end(), sort);
 
-        for (const auto& ip : ip_pool) {
-            std::string ip_string;
-            for(const auto& ip_part : ip) {
-                ip_string += ip_part + '.';
-            }
-            ip_string.pop_back();
-            std::cout << ip_string << std::endl;
-        }
-
-        // 222.173.235.246
-        // 222.130.177.64
-        // 222.82.198.61
-        // ...
-        // 1.70.44.170
-        // 1.29.168.152
-        // 1.1.234.8
-
-        // TODO filter by first byte and output
-        // ip = filter(1)
-
-        // 1.231.69.33
-        // 1.87.203.225
-        // 1.70.44.170
-        // 1.29.168.152
-        // 1.1.234.8
-
-        // TODO filter by first and second bytes and output
-        // ip = filter(46, 70)
-
-        // 46.70.225.39
-        // 46.70.147.26
-        // 46.70.113.73
-        // 46.70.29.76
+        print(ip_pool);
 
         // TODO filter by any byte and output
         // ip = filter_any(46)
