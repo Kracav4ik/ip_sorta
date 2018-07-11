@@ -40,3 +40,19 @@ void print(const std::vector<IP>& ip_pool) {
         std::cout << ip_string << std::endl;
     }
 }
+
+std::vector<IP> filter_ip_pool_any(const std::vector<IP>& ip_pool, int i) {
+    std::vector<IP> res;
+    for (const auto& ip : ip_pool) {
+        bool add = false;
+        for (const auto& byte : ip) {
+            if (i == std::stoi(byte)) {
+                add = true;
+            }
+        }
+        if (add) {
+            res.push_back(ip);
+        }
+    }
+    return res;
+}

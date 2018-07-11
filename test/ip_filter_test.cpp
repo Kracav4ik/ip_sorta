@@ -46,6 +46,29 @@ TEST(ip_sorta_tests, filter) {
     ASSERT_EQ(filter_ip_pool(test_src, 1, 2, 3), test3);
 }
 
+TEST(ip_sorta_tests, filter_any) {
+    std::vector<IP> test_src = {
+        {"1","1","1","1"},
+        {"1","2","3","5"},
+        {"1","2","3","7"},
+        {"1","2","3","3"},
+        {"2","3","4","1"},
+        {"2","3","5","6"},
+        {"4","2","1","3"},
+        {"2","1","2","4"}
+    };
+
+    std::vector<IP> test = {
+        {"1","1","1","1"},
+        {"1","2","3","5"},
+        {"1","2","3","7"},
+        {"1","2","3","3"},
+        {"2","3","4","1"},
+        {"4","2","1","3"},
+        {"2","1","2","4"}
+    };
+    ASSERT_EQ(filter_ip_pool_any(test_src, 1), test);
+}
 
 int main(int argc, char **argv) {
     testing::InitGoogleTest(&argc, argv);
