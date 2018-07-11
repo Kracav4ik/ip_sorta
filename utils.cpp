@@ -1,9 +1,10 @@
 #include "utils.h"
 
 #include <iostream>
+#include <sstream>
 
-IP split(const std::string &str, char d) {
-    IP result;
+ip::IP_STR ip::split(const std::string &str, char d) {
+    ip::IP_STR result;
 
     std::string::size_type start = 0;
     std::string::size_type stop = str.find_first_of(d);
@@ -19,40 +20,57 @@ IP split(const std::string &str, char d) {
     return result;
 }
 
-bool sort(IP ip1, IP ip2) {
+bool ip::sort(ip::IP ip1, ip::IP ip2) {
     for (int i = 0; i < ip1.size(); ++i) {
-        if (std::stoi(ip1[i]) > std::stoi(ip2[i])) {
+        if (ip1[i] > ip2[i]) {
             return true;
-        } else if (std::stoi(ip1[i]) < std::stoi(ip2[i])) {
+        } else if (ip1[i] < ip2[i]) {
             return false;
         }
     }
     return true;
 }
 
-void print(const std::vector<IP>& ip_pool) {
+void ip::print(const std::vector<ip::IP>& ip_pool) {
     for (const auto& ip : ip_pool) {
-        std::string ip_string;
+        std::stringstream ss;
+        bool first = true;
         for(const auto& ip_part : ip) {
-            ip_string += ip_part + '.';
+            if (!first) {
+                ss << '.';
+            }
+            ss << std::to_string(ip_part);
+            first = false;
         }
-        ip_string.pop_back();
-        std::cout << ip_string << std::endl;
+        std::cout << ss.str() << std::endl;
     }
+    std::cout << std::endl;
 }
 
-std::vector<IP> filter_ip_pool_any(const std::vector<IP>& ip_pool, int i) {
-    std::vector<IP> res;
+std::vector<ip::IP> ip::filter_ip_pool_any(const std::vector<ip::IP>& ip_pool, int i) {
+    std::vector<ip::IP> res;
     for (const auto& ip : ip_pool) {
         bool add = false;
         for (const auto& byte : ip) {
-            if (i == std::stoi(byte)) {
+            if (i == byte) {
                 add = true;
             }
         }
         if (add) {
             res.push_back(ip);
         }
+    }
+    return res;
+}
+
+ip::IP ip::toIP(const ip::IP_STR& ip_str) {
+    IP res;
+    for (auto&& byte : ip_str) {
+        if (byte.empty()) {
+            res.push_back(-1);
+            continue;
+        }
+        res.push_back(std::stoi(byte));
     }
     return res;
 }
